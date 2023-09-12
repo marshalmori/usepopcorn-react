@@ -122,6 +122,7 @@ export default function App() {
       return;
     }
 
+    handleCloseMovie();
     fetchMovies();
 
     return () => {
@@ -296,6 +297,20 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
     onAddWatched(newWatchedMovie);
     onCloseMovie();
   };
+
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+
+    document.addEventListener("keydown", callback);
+
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
 
   useEffect(() => {
     const getMovieDetails = async () => {
